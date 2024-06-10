@@ -13,37 +13,7 @@
 
     <link rel="stylesheet" href="{% static 'css/styles_mh.css' %}" />
     <link rel="shortcut icon" href="/static/image/site_logo.png" />
-    
-    <style>
-      /* Индикатор загрузки */
-      #loadingIndicator {
-        display: none;
-        position: fixed;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 1000;
-      }
-      
-      .spinner {
-        width: 80px;
-        height: 80px;
-        border: 8px solid rgba(0, 0, 0, 0.1);
-        border-top: 8px solid #000;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
-
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-
-      /* Скрытый iframe */
-      #downloadFrame {
-        display: none;
-      }
-    </style>
+  
 
     <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -82,7 +52,7 @@
     </div>
 
     <!-- Скрытый iframe для скачивания файла -->
-    <iframe id="downloadFrame" name="downloadFrame"></iframe>
+    <iframe id="downloadFrame" name="downloadFrame" style="display: none;"></iframe>
 
     <form method="POST" style="margin-left: 10px; margin-top: 40px; width: 500px" action="{% url 'op' %}" enctype="multipart/form-data" target="downloadFrame">
       {% csrf_token %}
