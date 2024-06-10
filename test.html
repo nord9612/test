@@ -13,7 +13,7 @@
 
     <link rel="stylesheet" href="{% static 'css/styles_mh.css' %}" />
     <link rel="shortcut icon" href="/static/image/site_logo.png" />
-  
+    
     <style>
       /* Индикатор загрузки */
       #loadingIndicator {
@@ -38,24 +38,6 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
-
-      /* Скрытый iframe */
-      #downloadFrame {
-        display: none;
-      }
-
-      /* Сообщение об окончании загрузки */
-      #completionMessage {
-        display: none;
-        position: fixed;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 1000;
-        background-color: #fff;
-        padding: 20px;
-        border: 1px solid #000;
-      }
     </style>
 
     <script>
@@ -63,24 +45,11 @@
         var form = document.querySelector('form');
         var loadingIndicator = document.getElementById('loadingIndicator');
         var submitButton = document.getElementById('startButton');
-        var downloadFrame = document.getElementById('downloadFrame');
-        var completionMessage = document.getElementById('completionMessage');
 
         form.addEventListener('submit', function() {
           loadingIndicator.style.display = 'block';
           submitButton.disabled = true;
           submitButton.value = 'Ожидайте';
-        });
-
-        // Для отображения сообщения об окончании загрузки
-        downloadFrame.addEventListener('load', function() {
-          loadingIndicator.style.display = 'none';
-          submitButton.disabled = false;
-          submitButton.value = 'Загрузить';
-          completionMessage.style.display = 'block';
-          setTimeout(function() {
-            completionMessage.style.display = 'none';
-          }, 5000);
         });
       });
     </script>
@@ -93,6 +62,7 @@
       </a>
     </header>
     
+
     <h1 class="page_header">Оперативный план</h1>
 
     <!-- Индикатор загрузки -->
@@ -100,15 +70,7 @@
       <div class="spinner"></div>
     </div>
 
-    <!-- Сообщение об окончании загрузки -->
-    <div id="completionMessage">
-      Файл успешно загружен!
-    </div>
-
-    <!-- Скрытый iframe для скачивания файла -->
-    <iframe id="downloadFrame" name="downloadFrame" style="display: none;"></iframe>
-
-    <form method="POST" style="margin-left: 10px; margin-top: 40px; width: 500px" action="{% url 'op' %}" enctype="multipart/form-data" target="downloadFrame">
+    <form method="POST" style="margin-left: 10px; margin-top: 40px; width: 500px" action="{% url 'op' %}" enctype="multipart/form-data">
       {% csrf_token %}
       
       <div class="mb-3">
