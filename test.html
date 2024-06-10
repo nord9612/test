@@ -14,6 +14,43 @@
 
     <link rel="stylesheet" href="{% static 'css/styles_mh.css' %}" />
     <link rel="shortcut icon" href="/static/image/site_logo.png" />
+    
+    <style>
+      /* Индикатор загрузки */
+      #loadingIndicator {
+        display: none;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+      }
+      
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-top: 4px solid #000;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var form = document.querySelector('form');
+        var loadingIndicator = document.getElementById('loadingIndicator');
+
+        form.addEventListener('submit', function() {
+          loadingIndicator.style.display = 'block';
+        });
+      });
+    </script>
   </head>
 
   <body style="margin: 0; overflow: scroll">
@@ -26,6 +63,10 @@
 
     <h1 class="page_header">Оперативный план</h1>
 
+    <!-- Индикатор загрузки -->
+    <div id="loadingIndicator">
+      <div class="spinner"></div>
+    </div>
 
     <form method="POST" style="margin-left: 10px; margin-top: 40px; width: 500px" action="{% url 'op' %}" enctype="multipart/form-data">
       {% csrf_token %}
