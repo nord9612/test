@@ -14,6 +14,49 @@
     <link rel="stylesheet" href="{% static 'css/styles_mh.css' %}" />
     <link rel="shortcut icon" href="/static/image/site_logo.png" />
   
+    <style>
+      /* Индикатор загрузки */
+      #loadingIndicator {
+        display: none;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+      }
+      
+      .spinner {
+        width: 80px;
+        height: 80px;
+        border: 8px solid rgba(0, 0, 0, 0.1);
+        border-top: 8px solid #000;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      /* Скрытый iframe */
+      #downloadFrame {
+        display: none;
+      }
+
+      /* Сообщение об окончании загрузки */
+      #completionMessage {
+        display: none;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        background-color: #fff;
+        padding: 20px;
+        border: 1px solid #000;
+      }
+    </style>
 
     <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -21,6 +64,7 @@
         var loadingIndicator = document.getElementById('loadingIndicator');
         var submitButton = document.getElementById('startButton');
         var downloadFrame = document.getElementById('downloadFrame');
+        var completionMessage = document.getElementById('completionMessage');
 
         form.addEventListener('submit', function() {
           loadingIndicator.style.display = 'block';
@@ -28,11 +72,16 @@
           submitButton.value = 'Ожидайте';
         });
 
-        downloadFrame.onload = function() {
+        // Для отображения сообщения об окончании загрузки
+        downloadFrame.addEventListener('load', function() {
           loadingIndicator.style.display = 'none';
           submitButton.disabled = false;
           submitButton.value = 'Загрузить';
-        };
+          completionMessage.style.display = 'block';
+          setTimeout(function() {
+            completionMessage.style.display = 'none';
+          }, 5000);
+        });
       });
     </script>
   </head>
@@ -49,6 +98,11 @@
     <!-- Индикатор загрузки -->
     <div id="loadingIndicator">
       <div class="spinner"></div>
+    </div>
+
+    <!-- Сообщение об окончании загрузки -->
+    <div id="completionMessage">
+      Файл успешно загружен!
     </div>
 
     <!-- Скрытый iframe для скачивания файла -->
