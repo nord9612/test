@@ -20,12 +20,19 @@
         var form = document.querySelector('form');
         var loadingIndicator = document.getElementById('loadingIndicator');
         var submitButton = document.getElementById('startButton');
+        var downloadButton = document.getElementById('downloadButton');
 
         form.addEventListener('submit', function() {
           loadingIndicator.style.display = 'block';
           submitButton.disabled = true;
           submitButton.value = 'Ожидайте';
         });
+
+        if (downloadButton) {
+          downloadButton.addEventListener('click', function() {
+            window.location.href = '{% url "file_download_url" %}';
+          });
+        }
       });
     </script>
 
@@ -120,7 +127,7 @@
       <input id="startButton" type="submit" class="btn btn-warning upload" value="Загрузить" style="margin-top: 15px; width: 500px;">
       
       {% if display_success %}
-      <button type="button" class="btn btn-warning upload" style="margin-top: 15px; width: 500px;">Скачать</button>
+      <button type="button" id="downloadButton" class="btn btn-warning upload" style="margin-top: 15px; width: 500px;">Скачать</button>
       {% endif %}
 
     </form>
